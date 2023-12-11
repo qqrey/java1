@@ -117,3 +117,39 @@ public class HelloWorld{
 	}
 }
 */
+
+/* 
+import java.util.Scanner;
+ class compare{
+    public static void main(String[] args) {
+        //declaration
+        int num1;
+        int num2;
+		int num3;
+		
+        Scanner userInput = new Scanner(System.in);
+        //prompt 
+
+        System.out.println("Please provide 1 number:");
+        num1 = userInput.nextInt();
+        System.out.println("Please provide 2 number:");
+        num2 = userInput.nextInt();
+		System.out.println("Please provide 3 number:");
+        num3 = userInput.nextInt();
+
+        if(num1 + num2 == num3){
+            System.out.println("num1 + num2 will be:" + num3);
+        }
+        else if(num1 + num3 == num2){
+            System.out.println("num1 + num3 will be:" + num2);
+        }
+        else if(num2 + num3 == num1){
+            System.out.println("num2 + num3 will be:" + num1);
+        }
+        else{
+            System.out.println("No equal");
+        }
+    }
+ }
+*/
+
