@@ -66,14 +66,14 @@ public class loop {
         //强制结束迴圈
         
         //程式范例
-        //int x = 1;
-        //while (x < 5) {
-        //    if(x == 3){   //当x=3就断掉迴圈
-        //        break;
-        //    }
-        //    System.out.println(x);
-        //    x++;
-        //}
+        int x = 1;
+        while (x < 5) {
+            if(x == 3){   //当x=3就断掉迴圈
+                break;
+            }
+            System.out.println(x);
+            x++;
+        }
 
         
     }

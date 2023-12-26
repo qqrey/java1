@@ -42,9 +42,15 @@ public class score{
               Arrays.sort(score.after_array);
               break;
           }
-    }
-      write_file_method();
-      read_file_method(String data);
+    } 
+      int[] dataArray = read_file_method();
+      System.out.println("dataarray:" + Arrays.toString(dataArray));
+      int[] after_dataArray = Arrays.copyOf(dataArray, dataArray.length + 1);
+      after_dataArray[dataArray.length] = user_score;
+      read_file_method();
+      write_file_method(after_dataArray);
+      read_file_method();
+      System.out.println("a" + score.after_array);
       
       System.out.println("\t\td:" + score.after_array[score.after_array.length - 1] + "\t\tc:" + user_score);    //display the last number in the array and the number that tester type (the number should be same if the given number is the biggest)
       if(score.after_array[score.after_array.length - 1] == user_score){     //if the new number is bigger then every number inside the array, mean that the number that been given is the highest
@@ -56,29 +62,38 @@ public class score{
    s write_file_use
    */
 
-    static void write_file_method(){
-        try (FileWriter write_file = new FileWriter("leaderboard.txt")) {
-            System.out.println(Arrays.toString(score.after_array));
-            write_file.write(Arrays.toString(score.after_array));
-            write_file.close();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+   static void write_file_method(int[] after_dataArray) {
+    try (FileWriter write_file = new FileWriter("leaderboard.txt")) {
+        System.out.println("data to write: " + Arrays.toString(after_dataArray));
+        write_file.write(Arrays.toString(after_dataArray));
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+
+private static int[] read_file_method() {
+    Integer[] readData = null;
+    try {
+        File read_file = new File("leaderboard.txt");
+        Scanner scanner_Read = new Scanner(read_file);
+
+        while (scanner_Read.hasNextLine()) {
+            String data = scanner_Read.nextLine();
+            System.out.println("data_read: " + data);
+            
+            // Convert the read data back to an int array (assuming the data is in the format "[1, 2, 3, ...]")
+            data = data.replace("[", "").replace("]", "").replace(" ", "");
+            String[] strArray = data.split(",");
+            readData = new int[strArray.length];
+            for (int i = 0; i < strArray.length; i++) {
+                readData[i] = Integer.parseInt(strArray[i]);
+            }
         }
+        scanner_Read.close();
+    } catch (IOException e) {
+        e.printStackTrace();
     }
 
-    static void read_file_method(String data) {
-            try {
-                File read_file = new File("leaderboard.txt");
-                Scanner scanner_Read = new Scanner(read_file);
-                while (scanner_Read.hasNextLine()) {
-                    data = scanner_Read.nextLine();
-                    System.out.println("data_read:" + data);
-                }
-                scanner_Read.close();
-            } catch (FileNotFoundException e) {
-                System.out.println("An error occurred.");
-                e.printStackTrace();
-                }
-    }
+    return readData;
+}
 }

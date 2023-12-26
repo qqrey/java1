@@ -1,25 +1,5 @@
-// Java program to implement
+package hangman;
 // Hangman game
-
-
-//not clear how it's triggered
-//if user input nothing this error will appear
-//Exception in thread "main" java.lang.StringIndexOutOfBoundsException: Index 0 out of bounds for length 0
-
-
-/*
- * todo list
- * read file data and replace data each time
- * display leaderboard when the game end
- * better user interface     //emoji?
- * try to add more vocabulary to let user have more type of question  //no time to do
- *
- * read_file_method have some problem need to fix
- * have trouble in bring file data into program
- * save user_name and user_score into txt, but idk why the first three char data will be eaten  //solve idk why just use the old ver and remake
- */
-
-
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -31,9 +11,7 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import hangman.Players;
-
-class hang {
+class final_hang {
 
     static Scanner input;
     static int user_score;
@@ -45,8 +23,8 @@ class hang {
         input = new Scanner(System.in);
 
         // array of strings containing words
-        String[] company = { "Maruti", "Tata", "Suzuki",
-                "Ducati", "Toyota" };
+        String[] company = { "Nissan", "Honda", "Suzuki",
+                "Mazida", "Toyota" };
         System.out.println(
                 " Welcome to HANGMAN GAME ");
 
@@ -69,10 +47,9 @@ class hang {
 
     //read file and write file combine into read_write_file_method because idk how to call a variable from one method to another method
     static void read_write_file_method(String user_name, int user_score) throws FileNotFoundException{  //fixed  //problem:cannot read old data so the data will be cover over
-        if(user_score >0){    //make sure the score will not be negative number
+        if(user_score > 0){    //make sure the score will not be negative number
             String data = "";     //read from file
             String data_store = "";
-            //String leaderboard_storage = "";
             File readFile = new File("leaderboard.txt");
 
             try (Scanner scannerRead = new Scanner(readFile)) {        //read file
@@ -82,7 +59,6 @@ class hang {
                 while (scannerRead.hasNextLine()) {      //if txt file have next line
                     data = scannerRead.nextLine();
                     String rs = data;
-
 
 
                     String regex = "([a-zA-Z]{1,20})\\s(\\d{1})";        //seperate user name and user score
@@ -107,42 +83,18 @@ class hang {
                     }
 
                     data_store = sb.toString();
-
-/*
-                    try (FileWriter write_file = new FileWriter("leaderboard.txt",false)) {
-                        //user_data = user_name.concat(" " + user_score);     //why I dont use class is because I don know how to use, so this will make code become more unreadable
-                        write_file.write(data_store + user_name +" "+ user_score);
-						System.out.println("datascore: " + data_store +" "+ user_name +" "+ user_score);   //debug track
-						System.out.println("datascore: " + data_store);     //debug track
-						System.out.println("username "+ user_name);     //debug track
-						System.out.println("userscore "+ user_score);    //debug track
-                    }
-*/
-
-                    //if(data.length() >0){
-                    //    data_store = data_store.concat(data + "\n");   //group all line to data_store
-                    //System.out.println("data_read: " + data);       //debug track
-                    //}else{
-                    //    data_store = data_store.concat(data);
-                    //System.out.println("data_read: " + data);          //debug track
-                    //}
-
                 }
 
                 try (FileWriter write_file = new FileWriter("leaderboard.txt",false)) {     //write file
                     if(data.length() != 0){
                         user_data = user_name.concat(" " + user_score);     //why I dont use class is because I don know how to use, so this will make code become more unreadable
                         write_file.write(data_store + user_data);           //fixed //problem:here should write the same output like what below output, but in fact, it just cover it with the leatest data but not all old data
-                        //System.out.println("full:"  + data_store);  //debug track
-						//System.out.println("user_data: " + user_data);     //debug track
-                        //System.out.println(data_store);                 //debug track
-                        //System.out.println("data_length!=0");         //debug track
                         write_file.close();
                     }else{
-                        //System.out.println("data_length=0");         //debug track
                         write_file.write(user_name +" " + user_score);
                         write_file.close();
                     }
+                    System.out.println("(º﹃º )");
                     System.out.println("\n" + "--------------");
                     System.out.println("Leaderboard" + "\n--------------" + "\n" + data_store);
                     System.out.println("\nDear " + user_name + "\n" + "Your score will be: " + user_score);
