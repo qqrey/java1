@@ -1,0 +1,154 @@
+start
+    DeclarationS
+        String input
+        int user_score
+        String user_name
+        String user_data
+    hangman()
+stop
+
+hangman()
+    String[] company ={"Honda", "Nissan", "Suzuki", "Mazida", "Toyota"}
+    output "Welcome to HANGMAN GAME"
+    Random obj = new Random()
+    int Ran_num
+    String word = (company [Ran_num])
+    word = word.toUpperCase()
+    String word1 = word.replaceAll ("[A-1]", "_")
+    output "Insert user name before start:"
+    String user_name
+    output "Let's play the game"
+    startGame (word, word1)
+return
+
+startGame (word, word1)
+    int wrong = 0
+    String guess
+    char letter
+    boolean guessescontainsguess
+    String guesses = ""
+    boolean guessinword
+    while wrong < 5 && word1.contains("_")
+        output word1 + "\n"
+        int temp = 5 - wrong
+        if wrong !=0
+            output "You have " + temp + "guesses left."
+        endif
+        output "Your Guess:"
+        guess = input.nextLine()
+        guess = input.toUpperCase()
+        letter = guess.charAt(0)
+        guessescontainsguess = (guesses.indexOf(letter)) != -1
+        guesses += letter
+        letter = Character.toUpperCase(letter)
+        if guessescontainsguess == true 
+            output "You ALREADY guessed " + letter + ".\n" 
+        endif
+        guessinword = (word,indexOf(letter)) != -1
+        if guessinword == true
+            output letter + "is present in the word." 
+            output "\n"
+            for int position = 0; position < word.length(); position ++
+                if word.charAt(position) == letter && word1.charAt(position) != letter
+                    word1 = word1.replaceAll("_ ","_")
+                    String word2
+                    word2 = word1.substring(0, position) + letter + word1.substring( postion +1)
+                    word2 = word2.replaceAll("_","_ ")
+                    word1 = word2
+                    user_score +=1
+                endif
+            endfor
+        else
+            output letter + " is not present in the word."
+            wrong +=1
+            user_score -=1
+        endif
+    endwhile
+    if wrong == 5
+        output "YOU LOST!, maximum limit of incorrect guesses reached."
+    else
+        output "The word is:" + word1 + "\n Well Played, you did it!!"
+    endif
+    score_save(user_name, user_score)
+return
+
+
+score_save(user_name, user_score)
+    try(File leaderboard = new File("leaderboard.txt"))
+        if leaderboard.createNewFile()
+            output "File created:" + leaderboard.getName()
+        endif
+    output "An error occured."
+    catch (IOException e)
+    endtry
+    read_write_file_method(user_name, user_score)
+return
+
+
+read_write_file_method(user_name, user_score)
+    if user_score > 0 
+        String data = ""
+        String data_store = ""
+        File readFile = new File("leaderboard.txt")
+        try (Scanner scannerRead = new Scanner(readFile))
+            ArrayList<Players> LeaderBoard = new ArrayList<>()
+            while scannerRead.hasNextLine()
+                data = scannerRead.nextLine()
+                String rs = data
+                String ragex = "([a-zA-Z]{1,20})\\s(\\d{1})"
+                Pattern pattern = Pattern.compile(ragex)
+                Matcher matcher = pattern.matcher(rs)
+                String rs1 = ""
+                int rs2 = 0
+                while matcher.find()
+                    rs1 = matcher.group(1)
+                    rs2 = Integer.parseInt(matcher.group(2))
+                endwhile
+                LeaderBoard.add(new Players(rs1, rs2))
+                Collections.sort(LeaderBoard)
+                StringBuilder sb = new StringBuilder()
+                for int i = 0; i < LeaderBoard.size(); i++
+                    Players player = LeaderBoard.get(i)
+                    sb.append(player.getName()).append("").append(player.getScore()).append("\n")
+                endfor
+                data_store = sb.toString()
+            endwhile
+            try (FileWriter write_file = new FileWriter("leaderboard.txt", false))
+                if data.length() != 0
+                    user_data = user_name.concat("" + user_score)
+                    write_file.write(data_store + user_data)
+                    write_file.close()
+                else
+                    write_file.write(user_name + "" + user_score)
+                    write_file.close()
+                endif
+                output "\n" + "--------------"
+                output "Leaderboard" + "\n--------------" + "\n" + data_store
+                output "\nDear " + user_name + "\n" + "Your score will be: " + user_score
+            catch (IOException e)
+            e.printStackTrace()
+            endtry
+        catch (IOException e)
+        e.printStackTrace()
+        endtry
+    endif
+return 
+
+start
+    implements Comparable<Players>
+    String name
+    int score 
+    String getName()
+        return name
+    setName(String name)
+        this.name = name
+    int getScore
+        return score
+    setScore(int score)
+        this.score = score
+    Players(String name, int score)    
+        this.name = name
+        this.score = score
+    int compare(Players otherPlayers)
+        return Integer.compare(otherPlayers.score , this.score)
+stop
